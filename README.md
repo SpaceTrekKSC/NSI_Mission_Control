@@ -1,6 +1,6 @@
-# NSI Mission Control 1.0.0
+# NSI® Mission Control
 
-**NSI Mission Control** is the desktop application for flying a **Near Space Investigation (NSI)** high‑altitude balloon mission end to end — plan it, fly it, track it, and recover it — from one program that works **completely offline in the field**.
+**NSI® Mission Control** is the desktop application for flying a **Near Space Investigation® (NSI)** high‑altitude balloon mission end to end — plan it, fly it, track it, and recover it — from one program that works **completely offline in the field**.
 
 Developed by **Atlantis Educational Services, Inc.** for the **Near Space Investigation®** program, it replaces the legacy LabVIEW "NSI Data Display" with a single cross‑platform app that plans the flight, receives and records live telemetry from the NSI Flight Computer (relayed by the Ground Station over the 900 MHz XBee SX link), predicts where the balloon will land, and manages the NSI hardware over USB. Internet is only ever needed *ahead* of launch day — to download offline maps and wind data — and is never required at the launch site.
 
