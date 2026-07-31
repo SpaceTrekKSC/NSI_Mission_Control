@@ -1,93 +1,134 @@
 # NSI® Mission Control
 
-**NSI® Mission Control** is the desktop application for flying a **Near Space Investigation® (NSI)** high‑altitude balloon mission end to end — plan it, fly it, track it, and recover it — from one program that works **completely offline in the field**.
+**Plan, fly, and recover a high-altitude balloon mission — from one screen, built for classrooms.**
 
-Developed by **Atlantis Educational Services, Inc.** for the **Near Space Investigation®** program, it replaces the legacy LabVIEW "NSI Data Display" with a single cross‑platform app that plans the flight, receives and records live telemetry from the NSI Flight Computer (relayed by the Ground Station over the 900 MHz XBee SX link), predicts where the balloon will land, and manages the NSI hardware over USB. Internet is only ever needed *ahead* of launch day — to download offline maps and wind data — and is never required at the launch site.
+NSI Mission Control is the ground-station software for the **Near Space Investigations (NSI)** program from Atlantis Educational Services. It connects to an NSI Ground Station over USB, receives live telemetry from an NSI Flight Computer riding a balloon to the edge of space, and turns a school field into a mission control room: live map, instruments, flight prediction, antenna pointing, and a complete record of the flight for the classroom afterwards.
 
----
+It is free to download, runs on Windows, macOS and Linux (including Raspberry Pi), and needs **no account, no licence key, and no setup** — install it, plug in the Ground Station, and fly.
 
-## Highlights
+**[⭳ Download the latest release](../../releases/latest)** · [What you need](#what-you-need) · [Install](#install)
 
-- **Plan any mission end to end** — weather go/no‑go, FAA Part 101 exempt check, gas & lift worksheet, flight prediction, NOTAM paperwork, checklist and crew roles — printed as one Mission Pack.
-- **Live telemetry** from the 73‑field NSI stream, on a purpose‑built dashboard: gauges, attitude, GPS, radiation/UV, battery, and three student PODs.
-- **Offline vector maps** with the live flight track, ground‑station marker, and a Monte‑Carlo landing zone that keeps tightening all the way down.
-- **Flight prediction that runs inside the app** on every platform — the offline ASTRA Monte‑Carlo predictor and an optional online SondeHub source.
-- **Device management over USB** — download flight logs from the Flight Computer's SD card, set the XBee radio pairing, and **update device firmware** with verification.
-- **Everything is recorded automatically** (raw + CSV) and any session **replays** through the full pipeline.
-- **Runs everywhere** — Windows, macOS (Apple Silicon & Intel), Linux, and Raspberry Pi 4/5 — and lets you know when a new version is out (installing it automatically on Windows).
+![The Dashboard mid-flight](images/mc-dashboard-full.png)
 
 ---
 
-## Plan the mission — Mission Planner
+## Why it exists
 
-A complete pre‑flight workspace. Each plan is its own `.nsimission` file (auto‑named with the launch date), saved in a library you can reopen, duplicate and print.
+A high-altitude balloon flight is one of the best science lessons there is: a student-built payload climbs through −60 °C at 100,000+ feet, photographs the curvature of the Earth, bursts, and parachutes home. But the flying part has traditionally demanded ham-radio experience, hand-rolled tracking scripts, and a specialist at the keyboard.
 
-- **Launch site & timing** — set the site by clicking the map (or type lat/lon, or use the GS position); ground elevation auto‑fills. Plan **months** ahead — the app marks predictions as approximate until inside the 7‑day forecast horizon, then sharpens automatically.
-- **Launch‑day weather** — National Weather Service forecast for the site, scored **GO / CAUTION / NO‑GO** against the HAB go/no‑go criteria (cloud, visibility, surface wind), with alerts and sunrise/sunset. Cached in the mission file so the field laptop shows it offline.
-- **Payload & FAA compliance** — list everything that flies; the card continuously checks the **FAA Part 101 exempt rules** (14 CFR §101.1(a)(4): package weight, the 3 oz/in² density rule, combined weight, ≤ 50 lb weak link) and reads **EXEMPT** only when every rule passes.
-- **Gas & Lift worksheet** — from balloon, gas, neck lift and parachute it computes free lift, ascent/descent rate, burst altitude, time to burst, **helium volume and tanks to order**, fill diameter, and the launch→burst diameter range the FAA asks for.
-- **Launch‑window sweep** — simulate a launch **every hour** across your window and drop a color‑coded landing dot per hour on the map; pick the safest hour and adopt it with one click.
-- **NOTAM & FAA notification** — entirely offline, the planner finds the nearest airfields and ARTCC (magnetic radials via the current World Magnetic Model) and generates a **Leidos phone script** and a **courtesy‑notice email**, tracks your filing windows, and stores the NOTAM number.
-- **Checklist, crew roles & Mission Pack** — the full HAB field checklist and role assignments save with the plan, and **Mission Pack** prints the entire plan (brief, weather, compliance, gas, NOTAM, roles, checklist) to PDF.
-- **▶ Fly Mission** hands the plan's balloon, gas, payload and site to the live engine and attaches the flight recording to the same file — the plan you built becomes the record of the flight you flew.
+Mission Control removes that barrier. A teacher and a group of students can plan a launch, check the airspace, predict the landing, fly the mission, and drive to the payload — without a support call. Every step happens in plain language on one screen, and everything the flight produces is saved automatically.
 
-## Fly it — live dashboard & telemetry
+## What it does
 
-- **Link banner** tells you at a glance what's on the wire: 🟢 RECEIVING · 🟡 NO FC (GS alive, no Flight Computer) · 🔴 SILENT · ⚪ Disconnected — with packet, heartbeat and malformed counters and **GPS‑fix badges** for both units.
-- **Dashboard** — Ground Station status, **recommended antenna orientation** (geodetic bearing, elevation and distance to the balloon), mission/GPS time, a live map with an altitude ticker, altitude‑vs‑temp and altitude‑vs‑time charts, and a gauge strip: packets/min, pressure, external/IR/payload temperatures, humidity, **UV index** (WHO color scale) and battery.
-- **Flight data** — live ascent rate, **max ascent/descent**, and a **burst altitude** that appears only once burst is actually detected; **IMU** pitch/roll/yaw (BNO055); and a **PODS** panel with one LED per student pod (green = delivering data).
-- **Graphs** — full‑resolution plotting of the seven core channels, vs Time or vs Altitude, with min/max stats and a color‑coded **raw data console** and send box.
-- **Pods** — all three PODs, ten channels each, with per‑pod graphs.
-- **Sensor‑fault aware** — `NAN` shows as **FAULT**, all‑zero GPS shows as **NO FIX** (never a false 0°N/0°E), and the values are still kept in the logs.
-- **Field‑ready themes** — Dark, Light and a **High Contrast** theme built for direct sunlight; resizable, remembered layout.
-- **No hardware?** A built‑in **Demo flight simulator** exercises every feature, including fix loss, a sensor fault and an RF dropout.
+### 🎈 Live flight, as it happens
 
-## See it — offline maps & prediction
+The **Dashboard** shows the whole mission at a glance, updating with every telemetry packet from the balloon:
 
-- **Offline vector maps** — download map areas (up to a **500 km** radius) before launch day; no internet needed in the chase vehicle. Import `.pmtiles` maps, switch Dark/Light/High‑Contrast map styles, **Follow** the balloon or **Fit** the whole track, and **export the 3‑D track to KML** for Google Earth.
-- **Flight prediction** — the **ASTRA offline Monte‑Carlo** predictor runs entirely inside the app (download winds once, ~2 MB), re‑predicting **every ~45 s** from the balloon's live position and measured rates; after burst it switches to a descent‑only simulation so the landing zone tightens all the way down. Every simulated landing draws as a **purple dot** so you can plan the recovery around the zone, not just the pin. An optional **SondeHub** online source is also available. *(ASTRA physics © University of Southampton, BSD‑3‑Clause.)*
+- **Live map** with the balloon's track, your Ground Station, the launch site, and a continuously updated landing prediction
+- **Altitude ticker** with ascent rate — the number everyone crowds around at launch
+- **Eight live instruments**: atmospheric pressure, external temperature, humidity, IR / Earth reflection, payload temperature, UV index, battery, and packet rate
+- **GPS flight data** — position, satellites, ascent/descent rates, burst altitude
+- **IMU attitude** — pitch, roll, yaw, acceleration, magnetometer
+- **Charts** — altitude vs. external temperature, and altitude vs. time, live
+- A **link banner** that always tells you the state of the radio link in words, not codes
 
-## Manage your devices — Device Setup
+### 🗺️ Offline maps and recovery
 
-Talks to the Flight Computer or Ground Station over its **own USB cable**, independent of the live telemetry connection (you can stream on one port and service a device on another).
+The **Map** tab tracks the flight over street or terrain maps that can be **downloaded ahead of time** — because launch sites rarely have good cell service. After burst, the live landing prediction updates from the balloon's actual descent, so the chase crew drives toward where the payload *is going*, not where it was.
 
-- **SD‑card flight logs** (Flight Computer) — list, and **download every file checksum‑verified** (a mismatch is caught and the partial file removed); download all at once; delete with confirmation. The active log is protected from deletion.
-- **XBee SX radio pairing** (both units) — set the shared **Network ID** and **Preamble**, written to the radio, **read back to verify**, then saved — a half‑programmed radio is impossible. A one‑click **"Set to match"** pairs the second unit, and each board re‑heals its radio to the saved pairing on every boot.
-- **Firmware updates** — flash the connected Flight Computer or Ground Station to the latest **verified** firmware (downloaded from the official release page), with post‑flash verification and a **recovery‑flash** fallback if a board is ever left blank.
+![Map with prediction](images/mc-map.png)
 
-## Record, replay & keep your data
+### 📋 Mission Planner — the flight before the flight
 
-Every session is recorded automatically to a **raw log** (every byte as received — the authoritative record) and a **session CSV** (parsed, timestamped). **Replay** any past session — or a processed flight CSV — back through the entire live pipeline (dashboard, charts, map, pods), with every time axis driven by the GPS timestamps in the data. Export the current session to CSV, and the flight track to KML, anytime.
+Plan the entire mission days ahead, from your desk:
 
----
+- **Launch site picker** with the Ground Station's own GPS as one-click input
+- **Gas fill calculator** — balloon size, payload weight, target ascent rate in, litres of helium and neck lift out
+- **Flight prediction from real forecast winds** — launch-time sweep shows how the landing zone moves hour by hour, so you pick the calmest window
+- **Airspace and NOTAM check** — nearby airports and active notices, before you commit
+- **Launch-day weather panel** and a **pre-flight checklist** the class works through together
+- **Printable mission pack** — one PDF with the plan, prediction, checklist and contacts, ready for the clipboard
+- Plans live in a **library**: draft → flown, with the recording attached to the plan afterwards
 
-## Download & install
+![Prediction with launch-time sweep](images/mc-plan-predict.png)
 
-| Platform | Installer |
+### 🛰️ PODs — student experiments
+
+Up to three student-built experiment pods ride along, each with its own sensors. The **PODs** tab shows each pod's link and data live, so every team watches their own experiment fly.
+
+### 📈 Everything is recorded
+
+Every session writes a CSV as packets arrive — no "did you remember to record?" moment. **Replay** any recording at up to 10× to relive the flight in class, and **export** chart data for analysis in a spreadsheet. The telemetry format is plain comma-separated text a science class can open anywhere.
+
+### 🔧 Device Setup — the hardware side, without a toolbox
+
+- **Firmware updates** delivered automatically from the Atlantis firmware service — downloaded once, verified cryptographically, then installable offline. The app checks for device updates the way it checks for its own.
+- **Flight logs** — download the Flight Computer's SD-card recordings over USB, with checksum verification
+- **Radio pairing** — read and set the radio network so multiple classrooms can fly at the same field without crosstalk
+- **Genuine-hardware check** — each NSI board carries a factory-provisioned cryptographic identity the app verifies
+
+### 🎓 Try it with no hardware at all
+
+Pick **"Demo flight simulator"** from the port list and the app flies a scripted balloon mission — real telemetry format, live map, working instruments. Evaluate the software, train a class, or rehearse a launch day, all before the kit arrives.
+
+### 📚 The manuals travel with the app
+
+The **Resources** tab carries three complete documents, readable in-app and offline, each with a printable PDF:
+
+- **Quick Start Guide** — download to planned mission in a few pages
+- **User Manual** — every tab, every control, and why it behaves the way it does
+- **Complete Guide to Launching High Altitude Balloons** — hardware, physics, launch-day procedure, and regulations country by country
+
+## What you need
+
+| | |
 |---|---|
-| **Windows 10/11** (64‑bit) | `NSI-Mission-Control-Setup-1.0.0.exe` |
-| **macOS — Apple Silicon** | `NSI-Mission-Control-1.0.0-arm64.dmg` |
-| **macOS — Intel** | `NSI-Mission-Control-1.0.0.dmg` |
-| **Linux x64** | `NSI-Mission-Control-1.0.0.AppImage` · `nsi-mission-control_1.0.0_amd64.deb` |
-| **Linux arm64 / Raspberry Pi 4/5** (64‑bit OS) | `NSI-Mission-Control-1.0.0-arm64.AppImage` · `nsi-mission-control_1.0.0_arm64.deb` |
+| **Hardware** | An NSI Ground Station (USB) and an NSI Flight Computer — the flight kit from the NSI program. No hardware yet? The built-in demo simulator runs everything. |
+| **Computer** | Windows 10/11 (64-bit) · macOS 12+ (Apple Silicon or Intel) · 64-bit Linux with glibc 2.28+ (Ubuntu 20.04+, Raspberry Pi OS 64-bit on Pi 4/5) |
+| **Internet** | Not required to fly. Needed once for device firmware, and when planning for forecasts, map downloads and airspace data. Do the once-per-machine downloads before a trip — everything then works offline at the launch site. |
 
-**First‑launch security prompts** (these builds are not yet code‑signed):
-- **Windows:** SmartScreen → **More info** → **Run anyway**.
-- **macOS:** right‑click (Control‑click) the app → **Open** → **Open**. Once only.
-- **Linux (.AppImage):** `chmod +x` then run. **(.deb):** `sudo apt install ./<file>.deb` — adds you to the `dialout` group for serial access (log out/in once).
+## Install
 
-**Serial notes:** on Windows install the **FTDI VCP** driver if no port appears; on Linux remove `brltty` if it grabs your USB serial adapter. On **Windows** the app downloads and installs new releases automatically; on **macOS and Linux** it checks for updates and opens the download page for the new version. Recommended device firmware: Flight Computer **v0.4.1+** (v0.4.2+ for radio pairing), Ground Station **v3.3.0+** — older firmware still streams telemetry; the Device Setup features need these.
+Grab the file for your machine from the **[latest release](../../releases/latest)**:
+
+| Platform | File |
+|---|---|
+| Windows 10/11 | `NSI-Mission-Control-Setup-<version>.exe` |
+| macOS — Apple Silicon (M-series) | `NSI-Mission-Control-<version>-arm64.dmg` |
+| macOS — Intel | `NSI-Mission-Control-<version>.dmg` |
+| Linux x64 | `NSI-Mission-Control-<version>.AppImage` or `nsi-mission-control_<version>_amd64.deb` |
+| Linux arm64 / Raspberry Pi 4/5 | `NSI-Mission-Control-<version>-arm64.AppImage` or `nsi-mission-control_<version>_arm64.deb` |
+
+Not sure which Mac you have? **Apple menu → About This Mac** — an "M" chip means Apple Silicon.
+
+The app updates itself: when a new version is released, it offers the update in-app.
+
+### First launch on an unsigned build
+
+Code-signing certificates are in progress with Apple and Microsoft. Until they land, your computer warns you once — the software is fine; it simply has no certificate attached yet:
+
+- **Windows** — SmartScreen says "Windows protected your PC": click **More info → Run anyway**
+- **macOS 15 (Sequoia) or later** — open it once and let it be blocked, then **System Settings → Privacy & Security**, scroll down, **Open Anyway**
+- **macOS 14 or earlier** — right-click the app in Applications → **Open** → **Open**
+- **Linux AppImage** — `chmod +x` the file, then run it; **.deb** — `sudo apt install ./<file>.deb`
+
+Once certificates are issued this section disappears and installs are prompt-free.
+
+## Device firmware
+
+Flight Computer and Ground Station firmware comes from the Atlantis firmware service, built into the app — nothing to configure. Every image is **cryptographically signed**, and the app verifies the signature before a single byte is written to a board. Firmware downloads once per machine and then installs offline, so update at school, not at the launch site.
+
+## Support
+
+Questions about a kit, the software, or a flight: **[scientificsales.com](https://www.scientificsales.com)**
+
+Include your Mission Control version (**Help → About**) and, for flight questions, the session CSV (**Export** on the toolbar).
+
+Issues and pull requests on this repository are not monitored — it distributes the released installers; the application source is maintained privately.
 
 ---
 
-## The NSI telemetry stream (reference)
+© 2026 Atlantis Educational Services. All rights reserved.
+NSI® and NSI® Mission Control are trademarks of Atlantis Educational Services.
 
-One CSV line every ~12 s at 115200 baud, **73 fields**: GPS date/time, flight GPS (position/altitude/speed), atmosphere (humidity, temperature, pressure), IMU (attitude, accel, mag), radiation (IR temp, UV), battery, **three POD blocks of 10 channels each** (prefixed by a pod‑ID marker), and the Ground Station's own GPS/temperature/pressure. `NAN` = sensor fault; an all‑zero GPS block = no fix.
-
----
-
-## Credits & license
-
-Developed by **Atlantis Educational Services, Inc.** for the **Near Space Investigation®** program.
-© 2026 Atlantis Educational Services, Inc. All rights reserved.
-Flight prediction adapted from the **ASTRA** simulator (University of Southampton, BSD‑3‑Clause).
+The software is licensed, not sold. Redistribution of the installers and reverse engineering of the application or device firmware are not permitted. Third-party components are credited in Appendix B of the User Manual, inside the app.
