@@ -8,7 +8,7 @@ It is free to download, runs on Windows, macOS and Linux (including Raspberry Pi
 
 **[⭳ Download the latest release](../../releases/latest)** · [What you need](#what-you-need) · [Install](#install)
 
-![The Dashboard mid-flight](images/mc-dashboard-full.png)
+![The Flight tab mid-flight](images/mc-flight-full.png)
 
 ---
 
@@ -22,15 +22,15 @@ Mission Control removes that barrier. A teacher and a group of students can plan
 
 ### 🎈 Live flight, as it happens
 
-The **Dashboard** shows the whole mission at a glance, updating with every telemetry packet from the balloon:
+The **Flight** tab is the mission display — built to be read from across the room, by people who are standing up and holding an antenna:
 
-- **Live map** with the balloon's track, your Ground Station, the launch site, and a continuously updated landing prediction
-- **Altitude ticker** with ascent rate — the number everyone crowds around at launch
-- **Eight live instruments**: atmospheric pressure, external temperature, humidity, IR / Earth reflection, payload temperature, UV index, battery, and packet rate
-- **GPS flight data** — position, satellites, ascent/descent rates, burst altitude
-- **IMU attitude** — pitch, roll, yaw, acceleration, magnetometer
-- **Charts** — altitude vs. external temperature, and altitude vs. time, live
-- A **link banner** that always tells you the state of the radio link in words, not codes
+- **What the flight is doing, in words** — ON THE PAD, ASCENDING, FREE FALL, PARACHUTE, DESCENDING, LANDED — with the altitude compared to something human ("above airliner cruise", "above 94% of the atmosphere")
+- **A map that frames itself**, always holding the launch site, the whole track, the balloon and the predicted landing, with the track coloured by altitude so you can see where burst happened
+- **The payload turning in 3-D**, posed live from its own motion sensor, so a class can watch it spin and swing on the way up
+- **A milestone log** that writes the flight down as it happens: launch, Everest, the jet stream, cloud, BURST, weightlessness, parachute, landing
+- **Six instruments** — G-force, outside temperature, air pressure, payload power, GPS and sun — each a scale with a pointer and a plain-English word, so nothing needs interpreting
+
+The **Instruments** tab is the same flight as numbers: every gauge and readout at once, antenna pointing, live charts, pod lights, and a link status that always says what the radio is doing in words, not codes.
 
 ### 🗺️ Offline maps and recovery
 
